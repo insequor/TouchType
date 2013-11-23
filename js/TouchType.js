@@ -53,7 +53,7 @@ define(['js/WordsEn'], function(Words){
         init: function (selectedCharacters, keyMapping){
             //Below regular expression finds the characters which are not in the given
             //selectedCharacters string
-            this.keyMapping = keyMapping;
+            this.getMappedKeyValue = KeyMappingFunctions[keyMapping];
             
             var regexp = new RegExp('[^' + selectedCharacters + ']');
             this.words = Words.filter(function(word){return ! regexp.exec(word);});
@@ -68,12 +68,7 @@ define(['js/WordsEn'], function(Words){
             
             this.currentWordIndex = Math.floor(Math.random() * this.words.length) + 1;
             return this.words[this.currentWordIndex];
-        },
-        
-        getMappedKeyValue: function(keyValue) {
-            return KeyMappingFunctions[this.keyMapping](keyValue);
         }
-        
     };
     
     return TouchType;
