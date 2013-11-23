@@ -32,6 +32,7 @@ task("lint", [], function(){
     files.include("../**/*.js");
     files.exclude("build");
     files.exclude("external");
+    files.exclude("WordsEn.js"); //no need, automatically generated and takes time
     
     var passed = lint.validateFileList(files.toArray(), nodeLintOptions(), {});
     if(!passed)
