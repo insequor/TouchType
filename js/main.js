@@ -22,15 +22,19 @@ require(['jquery', "js/TouchType"], function($, TouchType) {
     var KeyCodeEnter = 13;
     var KeyCodeSpace = 32;
     
+    var word = $('#id_word');
     var edit = $('#id_edit');
+    
     edit.focus();
+    
+    TouchType.init();
+    
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;
         var keyValue = String.fromCharCode(keyCode);
         //console.log(keyValue + ': ' + keyCode);
-        var input = keyEvent.srcElement;
-        //edit field is in keyEvent.target
         if(keyCode === KeyCodeSpace) {
+            word.html(TouchType.next(edit.val()));
             edit.val('');
             return false; //So space is not handled by the target
         }
