@@ -27,8 +27,8 @@ require(['jquery', "js/TouchType"], function($, TouchType) {
     
     edit.focus();
     
-    //TouchType.init('asdfjkl', TouchType.KeyMapping.None);
-    TouchType.init('aoeuhtns', TouchType.KeyMapping.QwertyToDvorak);
+    //TouchType.init('asdfjklei', TouchType.KeyMapping.None);
+    TouchType.init('aoeuidhtns', TouchType.KeyMapping.QwertyToDvorak);
     
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;

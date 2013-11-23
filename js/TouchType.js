@@ -1,6 +1,17 @@
 /*global define*/
 "use strict";
 
+
+//If I define the Keys in the below method jshint statement does not work, I could not 
+//find a better way to use it. W044 refers to unnecessary escape characters in the 
+//mapping strings
+/*jshint -W044*/
+var Keys = {
+    'QWERTY' : "qwertyuiop[]\asdfghjkl;'zxcvbnm,./",
+    'DVORAK' : "',.pyfgcrl/=\aoeuidhtns-;qjkxbmwvz"
+};
+/*jshint +W044 */
+
 define(['js/WordsEn'], function(Words){
 
     //this shuffle code is taken from: http://bost.ocks.org/mike/shuffle/
@@ -17,16 +28,14 @@ define(['js/WordsEn'], function(Words){
         }
         return array;
     }
-
-    var QWERTY2DVORAK = {
-        'a': 'a',
-        's': 'o',
-        'd': 'e',
-        'f': 'u',
-        'j': 'h',
-        'k': 't',
-        'l': 'n',
-        ';': 's'
+    
+    var QWERTY2DVORAK = {};
+    for(var i =  Keys.QWERTY.length - 1; i >= 0; i --)
+        QWERTY2DVORAK[Keys.QWERTY[i]] = Keys.DVORAK[i];
+    
+    var KeyMappingFunctions = {
+        0: function(keyValue) {},
+        1: function(keyValue) {return QWERTY2DVORAK[keyValue];}
     };
     
     var TouchType = {
@@ -45,6 +54,7 @@ define(['js/WordsEn'], function(Words){
             //Below regular expression finds the characters which are not in the given
             //selectedCharacters string
             this.keyMapping = keyMapping;
+            
             var regexp = new RegExp('[^' + selectedCharacters + ']');
             this.words = Words.filter(function(word){return ! regexp.exec(word);});
             this.words = shuffle(this.words);
@@ -61,9 +71,7 @@ define(['js/WordsEn'], function(Words){
         },
         
         getMappedKeyValue: function(keyValue) {
-            if(this.keyMapping === this.KeyMapping.QwertyToDvorak) {
-                return QWERTY2DVORAK[keyValue];
-            }
+            return KeyMappingFunctions[this.keyMapping](keyValue);
         }
         
     };
