@@ -31,6 +31,7 @@ task("lint", [], function(){
     var files = new jake.FileList();
     files.include("../**/*.js");
     files.exclude("build");
+    files.exclude("external");
     
     var passed = lint.validateFileList(files.toArray(), nodeLintOptions(), {});
     if(!passed)
