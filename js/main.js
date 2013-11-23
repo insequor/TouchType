@@ -27,7 +27,8 @@ require(['jquery', "js/TouchType"], function($, TouchType) {
     
     edit.focus();
     
-    TouchType.init();
+    TouchType.init('asdfjkl');
+    //TouchType.init('aoeuhtns');
     
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;

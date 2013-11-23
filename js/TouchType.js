@@ -1,7 +1,7 @@
 /*global define*/
 "use strict";
 
-define([], function(){
+define(['js/WordsEn'], function(Words){
     var TouchType = {
         _name: 'TouchType',
         _author: 'Ozgur Yuksel',
@@ -9,8 +9,14 @@ define([], function(){
         
         currentWordIndex : -1,
         
-        init: function (){
+        init: function (selectedCharacters){
             this.words = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+            
+            //Below regular expression finds the characters which are not in the given
+            //selectedCharacters string
+            var regexp = new RegExp('[^' + selectedCharacters + ']');
+            this.words = Words.filter(function(word){return ! regexp.exec(word);});
+            console.log(this.words.length + ' words found');
             this.currentWordIndex = 0;
         },
         
