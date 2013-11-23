@@ -27,8 +27,8 @@ require(['jquery', "js/TouchType"], function($, TouchType) {
     
     edit.focus();
     
-    TouchType.init('asdfjkl');
-    //TouchType.init('aoeuhtns');
+    //TouchType.init('asdfjkl', TouchType.KeyMapping.None);
+    TouchType.init('aoeuhtns', TouchType.KeyMapping.QwertyToDvorak);
     
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;
@@ -43,6 +43,14 @@ require(['jquery', "js/TouchType"], function($, TouchType) {
             console.log('Pause/Stop...');
             return false; //So enter is not handled by the target
         }
+        
+        var mappedKeyValue = TouchType.getMappedKeyValue(keyValue);
+        if (mappedKeyValue){
+            //If this is a mapped key, we add the mapped version ourselves
+            edit.val(edit.val() + mappedKeyValue);
+            return false;
+        }
+            
     }
     
     edit.on('keypress', onKeyPress);

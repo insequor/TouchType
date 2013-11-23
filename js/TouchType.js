@@ -18,16 +18,33 @@ define(['js/WordsEn'], function(Words){
         return array;
     }
 
+    var QWERTY2DVORAK = {
+        'a': 'a',
+        's': 'o',
+        'd': 'e',
+        'f': 'u',
+        'j': 'h',
+        'k': 't',
+        'l': 'n',
+        ';': 's'
+    };
+    
     var TouchType = {
         _name: 'TouchType',
         _author: 'Ozgur Yuksel',
         _version: 0.0,
         
+        KeyMapping : {
+            None: 0,
+            QwertyToDvorak: 1
+        },
+        
         currentWordIndex : -1,
         
-        init: function (selectedCharacters){
+        init: function (selectedCharacters, keyMapping){
             //Below regular expression finds the characters which are not in the given
             //selectedCharacters string
+            this.keyMapping = keyMapping;
             var regexp = new RegExp('[^' + selectedCharacters + ']');
             this.words = Words.filter(function(word){return ! regexp.exec(word);});
             this.words = shuffle(this.words);
@@ -41,6 +58,12 @@ define(['js/WordsEn'], function(Words){
             
             this.currentWordIndex = Math.floor(Math.random() * this.words.length) + 1;
             return this.words[this.currentWordIndex];
+        },
+        
+        getMappedKeyValue: function(keyValue) {
+            if(this.keyMapping === this.KeyMapping.QwertyToDvorak) {
+                return QWERTY2DVORAK[keyValue];
+            }
         }
         
     };
