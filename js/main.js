@@ -46,17 +46,41 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             
     }
     
-    edit.on('keypress', onKeyPress);
+    edit.on("keypress", onKeyPress);
 
     var dialog = $('#SettingsDialog');
     dialog.modal({});
+    
+    var keyMappingCombo = dialog.find('#KeyMapping');
+    var keysToPracticeEdit = dialog.find('#KeysToPractice');
+    
+    var keyMappingComboMapper = {
+        "none": TouchType.KeyMapping.None,
+        "qwerty2dvorak": TouchType.KeyMapping.QwertyToDvorak
+    };
+    var settingsKeyHandlerFunction = TouchType.keyMapper(TouchType.KeyMapping.None);
+    
+    keyMappingCombo.on("change", function(event){
+        console.log("onchange: " + keyMappingCombo.val());
+        var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
+        settingsKeyHandlerFunction = TouchType.keyMapper(keyMapping);
+        keysToPracticeEdit.val('');
+    });
+    
+    keysToPracticeEdit.on("keypress", function(keyEvent){
+        var keyCode = keyEvent.keyCode;
+        var keyValue = String.fromCharCode(keyCode);
+        var mappedKeyValue = settingsKeyHandlerFunction(keyValue);
+        if (mappedKeyValue){
+            //If this is a mapped key, we add the mapped version ourselves
+            $(keyEvent.target).val($(keyEvent.target).val() + mappedKeyValue);
+            return false;
+        }
+    });
+    
     dialog.find('.btn-primary').on('click', function () {
-        var keyMapping = dialog.find('#KeyMapping').val();
-        keyMapping = {
-            "none": TouchType.KeyMapping.None,
-            "qwerty2dvorak": TouchType.KeyMapping.QwertyToDvorak
-        }[keyMapping];
-        var keysToPractice = dialog.find('#KeysToPractice').val();
+        var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
+        var keysToPractice = keysToPracticeEdit.val();
         
         TouchType.init(keysToPractice, keyMapping);
         

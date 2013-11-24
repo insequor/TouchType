@@ -72,6 +72,10 @@ define(['js/WordsEn'], function(Words){
             
             this.currentWordIndex = Math.floor(Math.random() * this.words.length) + 1;
             return this.words[this.currentWordIndex];
+        },
+        
+        keyMapper: function(keyMapping) {
+            return KeyMappingFunctions[keyMapping];
         }
     };
     
