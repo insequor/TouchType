@@ -2,6 +2,8 @@
 <head>
     <title>Touch Type</title>
     <link rel="stylesheet" type="text/css" href="../css/TouchType.css">
+    <link rel="stylesheet" href="../external/bootstrap-3.0.2-dist/dist/css/bootstrap.min.css">
+    
     <script data-main="../js/main" src="../external/require.js"></script>
 </head>
 <body>
@@ -11,5 +13,42 @@
     <div class="div_edit">
         <input id="id_edit" type="text" value="Press Spacebar to Start" />
     <div>
+    
+    <!-- Modal Dialog for Settings -->
+    <div class="modal fade" id="SettingsDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Exercise Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <table width="100%">
+                        <tr>
+                            <td>Key Mappings</td>
+                            <td>
+                                <select id="KeyMapping" class="form-control">
+                                    <option value="none">No Mapping</option>
+                                    <option value="qwerty2dvorak">QWERTY to DVORAK</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Keys to Practice</td>
+                            <td><input id="KeysToPractice" type="text" class="form-control" placeholder="All Keys"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <!-- 
+                    This will be needed if we want to resume the practice
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    -->
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Start Exercise</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 <html>

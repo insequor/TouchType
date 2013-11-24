@@ -6,29 +6,22 @@ require.config({
     //Below line ensures that js files will not be cached on client side, good for development
     urlArgs: 'version=',  //+ (new Date()).getTime(),
     paths: {
-        // the left side is the module ID,
-        // the right side is the path to
-        // the jQuery file, relative to baseUrl.
-        // Also, the path should NOT include
-        // the '.js' file extension. This example
-        // is using jQuery 1.9.0 located at
-        // js/lib/jquery-1.9.0.js, relative to
-        // the HTML page.
-        jquery: 'external/jquery-1.10.2'
+        "jquery": 'external/jquery-1.10.2',
+        "jquery.bootstrap": "external/bootstrap-3.0.2-dist/dist/js/bootstrap.min"
+    },
+    shim: {
+        "jquery.bootstrap": {
+            deps: ["jquery"]
+        }
     }
 });
 
-require(['jquery', "js/TouchType"], function($, TouchType) {
+require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchType) {
     var KeyCodeEnter = 13;
     var KeyCodeSpace = 32;
     
     var word = $('#id_word');
     var edit = $('#id_edit');
-    
-    edit.focus();
-    
-    //TouchType.init('asdfjklei', TouchType.KeyMapping.None);
-    TouchType.init('aoeuidhtns', TouchType.KeyMapping.QwertyToDvorak);
     
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;
@@ -54,6 +47,21 @@ require(['jquery', "js/TouchType"], function($, TouchType) {
     }
     
     edit.on('keypress', onKeyPress);
+
+    var dialog = $('#SettingsDialog');
+    dialog.modal({});
+    dialog.find('.btn-primary').on('click', function () {
+        var keyMapping = dialog.find('#KeyMapping').val();
+        keyMapping = {
+            "none": TouchType.KeyMapping.None,
+            "qwerty2dvorak": TouchType.KeyMapping.QwertyToDvorak
+        }[keyMapping];
+        var keysToPractice = dialog.find('#KeysToPractice').val();
+        
+        TouchType.init(keysToPractice, keyMapping);
+        
+        edit.focus();
+    });
     
     
 });

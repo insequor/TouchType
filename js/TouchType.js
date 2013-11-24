@@ -55,8 +55,12 @@ define(['js/WordsEn'], function(Words){
             //selectedCharacters string
             this.getMappedKeyValue = KeyMappingFunctions[keyMapping];
             
-            var regexp = new RegExp('[^' + selectedCharacters + ']');
-            this.words = Words.filter(function(word){return ! regexp.exec(word);});
+            if (selectedCharacters) {
+                var regexp = new RegExp('[^' + selectedCharacters + ']');
+                this.words = Words.filter(function(word){return ! regexp.exec(word);});
+            }
+            else
+                this.words = Words;
             this.words = shuffle(this.words);
             console.log(this.words.length + ' words found');
             this.currentWordIndex = -1;
