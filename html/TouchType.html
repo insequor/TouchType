@@ -8,50 +8,57 @@
 </head>
 <body>
     <div class="div_icons">
-        <span class="glyphicon glyphicon-cog"></span>
-        <span class="glyphicon glyphicon-stats"></span>
+        <span id="icon_settings" class="glyphicon glyphicon-cog"></span>
+        <span id="icon_stats" class="glyphicon glyphicon-stats"></span>
     </div>
     
-    <div class="div_word" id="id_word">
-        TouchType
-    </div>
-    <div class="div_edit">
-        <input id="id_edit" type="text" value="Press Spacebar to Start" />
-    <div>
-    
-    <!-- Modal Dialog for Settings -->
-    <div class="modal fade" id="SettingsDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Exercise Settings</h4>
-                </div>
-                <div class="modal-body">
-                    <table width="100%">
-                        <tr>
-                            <td>Key Mappings</td>
-                            <td>
-                                <select id="KeyMapping" class="form-control">
-                                    <option value="none">No Mapping</option>
-                                    <option value="qwerty2dvorak">QWERTY to DVORAK</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Keys to Practice</td>
-                            <td><input id="KeysToPractice" type="text" class="form-control" placeholder="All Keys"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <!-- 
-                    This will be needed if we want to resume the practice
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    -->
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Start Exercise</button>
-                </div>
+    <div id="div_practice" class="panel panel-default show">
+        <div class="panel-body">
+            <div class="div_word" id="id_word">
+                TouchType
             </div>
+            <div class="div_edit" style="width=:100px;">
+                <input id="id_edit" 
+                        type="text" 
+                        class="form-control" 
+                        value="Press Spacebar to Start" 
+                        style="text-align:center;"
+                        readonly>
+            </div>
+        </div>
+    </div>
+    <div id="div_settings" class="panel hide">
+        <div class="panel-heading">
+            <h1>Settings</h1>
+        </div>
+        <div class="panel-body">
+            <table width="100%">
+                <tr>
+                    <td>Key Mappings</td>
+                    <td>
+                        <select id="KeyMapping" class="form-control">
+                            <option value="none">No Mapping</option>
+                            <option value="qwerty2dvorak">QWERTY to DVORAK</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Keys to Practice</td>
+                    <td><input id="KeysToPractice" type="text" class="form-control" placeholder="All Keys"></td>
+                </tr>
+            </table>
+
+            <a href="#" class="continue-practice">Cancel</a>
+            <a href="#" class="start-practice">Start Practice</a>
+        </div>
+    </div>
+    
+    <div id="div_stats" class="panel hide">
+        <div class="panel-heading">
+            <h1>Stats</h1>
+        </div>
+        <div class="panel-body">
+            <a href="#" class="continue-practice">Continue Practice</a>
         </div>
     </div>
     

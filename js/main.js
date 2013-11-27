@@ -17,8 +17,50 @@ require.config({
 });
 
 require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchType) {
+    function switchPanel(name){
+        //Only using show(), hide() methods are not good enough if we use style sheet in html definition
+        //if we don't use stylesheet in html definition we have a flicker since elements are hidden after
+        //page load
+        $('.panel').removeClass('show');
+        $('.panel').addClass('hide');
+        $(name).addClass('show');
+        return false;
+    }
+
+    function switchToPractice(start) {
+        if(start) {
+            var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
+            var keysToPractice = keysToPracticeEdit.val();
+            
+            TouchType.init(keysToPractice, keyMapping);
+            
+            $('#id_edit').attr('readonly', false);
+            $('#id_edit').focus();
+        }
+        return switchPanel('#div_practice');
+    }
+
+    $('.continue-practice').on('click', function(){return switchToPractice(false);});
+    $('.start-practice').on('click', function(){return switchToPractice(true);});
+    
+    function switchToSettings() {return switchPanel('#div_settings');}
+    function switchToStats() {return switchPanel('#div_stats');}
+
+    
     var KeyCodeEnter = 13;
     var KeyCodeSpace = 32;
+    
+    
+    $('#icon_settings').on('click', function(){
+        switchToSettings();
+    } );
+    
+    $('#icon_stats').on('click', function(){
+        switchToStats();
+    } );
+    
+    
+    switchToPractice();
     
     var word = $('#id_word');
     var edit = $('#id_edit');
@@ -33,7 +75,8 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             return false; //So space is not handled by the target
         }
         else if(keyCode === KeyCodeEnter) {
-            console.log('Pause/Stop...');
+            console.log('enter');
+            switchToStats();
             return false; //So enter is not handled by the target
         }
         
@@ -48,9 +91,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     
     edit.on("keypress", onKeyPress);
 
-    var dialog = $('#SettingsDialog');
-    dialog.modal({});
-    
+    var dialog = $('#div_settings');
     var keyMappingCombo = dialog.find('#KeyMapping');
     var keysToPracticeEdit = dialog.find('#KeysToPractice');
     
