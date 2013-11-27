@@ -1,4 +1,4 @@
-/*global require*/
+/*global require, document*/
 "use strict";
 
 require.config({
@@ -24,10 +24,15 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         $('.panel').removeClass('show');
         $('.panel').addClass('hide');
         $(name).addClass('show');
+        
+        enterHandler = EnterHandlers[name];
+        escapeHandler = EscapeHandlers[name];
+        
         return false;
     }
 
     function switchToPractice(start) {
+        switchPanel('#div_practice');
         if(start) {
             var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
             var keysToPractice = keysToPracticeEdit.val();
@@ -37,7 +42,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             $('#id_edit').attr('readonly', false);
             $('#id_edit').focus();
         }
-        return switchPanel('#div_practice');
+        return false;
     }
 
     $('.continue-practice').on('click', function(){return switchToPractice(false);});
@@ -49,6 +54,21 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     
     var KeyCodeEnter = 13;
     var KeyCodeSpace = 32;
+    var KeyCodeEscape = 27;
+    
+    var EnterHandlers = {
+            '#div_practice': switchToStats,
+            '#div_settings': function(){switchToPractice(true);},
+            '#div_stats': switchToPractice
+    };
+    var enterHandler;
+    
+    var EscapeHandlers = {
+            '#div_practice': switchToSettings,
+            '#div_settings': switchToPractice,
+            '#div_stats': switchToPractice
+    };
+    var escapeHandler;
     
     
     $('#icon_settings').on('click', function(){
@@ -119,14 +139,15 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         }
     });
     
-    dialog.find('.btn-primary').on('click', function () {
-        var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
-        var keysToPractice = keysToPracticeEdit.val();
-        
-        TouchType.init(keysToPractice, keyMapping);
-        
-        edit.focus();
+    
+    $(document).on('keyup', function(keyEvent){
+        if(keyEvent.keyCode === KeyCodeEnter)
+            enterHandler();
+        if(keyEvent.keyCode === KeyCodeEscape)
+            escapeHandler();
     });
+    
+    edit.focus();
     
     
 });
