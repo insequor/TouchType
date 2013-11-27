@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Bootstrap Test Navigation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../external/bootstrap-3.0.2-dist/dist/css/bootstrap.css">
+        
+        <script type="text/javascript" src="../../external/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="../../external/bootstrap-3.0.2-dist/dist/js/bootstrap.js"></script>
+    
+        <style>
+            .area 
+            {
+                border: solid 1px;
+            }
+            
+        </style>
+    </head>
+    <body style="text-align:center;">
+        <h1>Here is a tryout of the layout</h1>
+        <div class="div_icons">
+            <span id="iconSetting" class="glyphicon glyphicon-cog"></span>
+            <span id="iconResult"  class="glyphicon glyphicon-stats"></span>
+        </div>
+        
+        <div id="div1" class="area">
+            <h2>Practice Div</h2>
+        </div>
+        <div id="div2" class="area">
+            <h2>Settings</h2>
+            <table>
+                <tr><td>Key Mapping</td><td>...</td></tr>
+                <tr><td>Keys to Practice</td><td>...</td></tr>
+            </table>
+            <a href="#" onclick="backToPractice()">Cancel</a>
+            <a href="#" onclick="backToPractice()">Start new Practice</a>
+        </div>
+        <div id="div3" class="area">
+            <h2>Results Div</h2>
+            Some graphs are shown here...<br />
+            <a href="#" onclick="backToPractice()">Back to Practice</a>
+        </div>
+        
+    </body>
+    <script>
+        function backToPractice() {
+            switchArea('#div1');
+        }
+
+        function switchArea(name) {
+            $('.area').hide();
+            $(name).show();
+        }
+        
+        $(function(){
+            console.log('here');
+            var divs = ['#div1', '#div2', '#div3'];
+            var currentDiv = 0;
+            
+            
+            
+            
+            switchArea('#div1');
+            
+            $('#iconSetting').on('click', function(){
+                console.log('setting');
+                switchArea('#div2');
+            });
+            
+            $('#iconResult').on('click', function(){
+                console.log('result');
+                switchArea('#div3');
+            });
+            
+            
+        });
+    </script>
+    
+</html>
