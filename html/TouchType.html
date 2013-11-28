@@ -12,7 +12,7 @@
         <span id="icon_stats" class="glyphicon glyphicon-stats"></span>
     </div>
     
-    <div id="div_practice" class="panel panel-default show">
+    <div id="div_practice" class="panel panel-default hide">
         <div class="panel-body">
             <div class="div_word" id="id_word">
                Touch Type
@@ -33,7 +33,7 @@
             
         </div>
     </div>
-    <div id="div_settings" class="panel hide">
+    <div id="div_settings" class="panel show">
         <div class="panel-heading">
             <h1>Settings</h1>
         </div>
@@ -55,16 +55,19 @@
             </table>
 
             <a href="#" class="continue-practice">Cancel</a>
-            <a href="#" class="start-practice">Start Practice</a>
+            <a href="#" class="start-practice">New Practice Session</a>
         </div>
     </div>
     
     <div id="div_stats" class="panel hide">
         <div class="panel-heading">
             <h1>Stats</h1>
+            You typed <span id="span_words"></span> words correctly in <span id="span_minutes"></span> minutes <br />
+            Your speed so far is <span id="span_speed"></span> words per minute
         </div>
         <div class="panel-body">
             <a href="#" class="continue-practice">Continue Practice</a>
+            <a href="#" class="start-practice">New Practice Session</a>
         </div>
     </div>
     

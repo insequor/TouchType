@@ -70,8 +70,14 @@ define(['js/WordsEn'], function(Words){
             if(this.currentWordIndex >= 0 && userEntry !== this.words[this.currentWordIndex])
                 return this.words[this.currentWordIndex];
             
-            this.currentWordIndex = Math.floor(Math.random() * this.words.length) + 1;
+            this.currentWordIndex += 1;
+            if(this.currentWordIndex >= this.words.length)
+                this.currentWordIndex = 0;
             return this.words[this.currentWordIndex];
+        },
+        
+        numberOfCorrectWords: function () {
+            return this.currentWordIndex;
         },
         
         keyMapper: function(keyMapping) {

@@ -47,15 +47,36 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             
             $('#id_edit').attr('readonly', false);
             $('#id_edit').focus();
+            
+            bar.width('0%');
+            bar.attr('aria-valuenow', 0);
+        
         }
+        
+        if(started)
+            progress = setInterval(progressUpdater, refreshInterval);
         return false;
     }
 
     $('.continue-practice').on('click', function(){return switchToPractice(false);});
     $('.start-practice').on('click', function(){return switchToPractice(true);});
     
-    function switchToSettings() {return switchPanel('#div_settings');}
-    function switchToStats() {return switchPanel('#div_stats');}
+    function switchToSettings() {
+        if(started)
+            clearInterval(progress);
+        return switchPanel('#div_settings');
+    }
+    function switchToStats() {
+        if(started)
+            clearInterval(progress);
+         
+        var minutes = parseFloat(bar.attr('aria-valuenow')) * duration / 100.0;
+        $('#span_words').html(TouchType.numberOfCorrectWords());
+        $('#span_minutes').html(minutes.toFixed(0));
+        $('#span_speed').html((TouchType.numberOfCorrectWords() / minutes).toFixed(0));
+        
+        return switchPanel('#div_stats');
+    }
 
     
     var KeyCodeEnter = 13;
@@ -65,7 +86,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     var EnterHandlers = {
             '#div_practice': switchToStats,
             '#div_settings': function(){switchToPractice(true);},
-            '#div_stats': switchToPractice
+            '#div_stats': function(){switchToPractice(true);}
     };
     var enterHandler;
     
@@ -93,11 +114,22 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     var edit = $('#id_edit');
     
     //timer for the progress
-    var duration = 0.5 * 60.0 * 1000.0; //milliseconds
+    var duration = 2.0; //milliseconds
     var refreshInterval = 100.0; //milliseconds
-    var progressDelta = refreshInterval / duration * 100.0; //% delta
+    var progressDelta = refreshInterval / (duration * 60.0 * 1000.0) * 100.0; //% delta
     
     var progress;
+    var bar = $('.progress-bar');
+    function progressUpdater(){
+        var val = parseFloat(bar.attr('aria-valuenow'));
+        val += progressDelta;
+        bar.width(val + '%');
+        bar.attr('aria-valuenow', val);
+        if(val >= 100.0) {
+            clearInterval(progress);
+            switchToStats();
+        }
+    }
     
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;
@@ -106,19 +138,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             started = true;
             word.html(TouchType.next(edit.val()));
             edit.val('');
-            
-            var bar = $('.progress-bar');
-            progress = setInterval(function(){
-                var val = parseFloat(bar.attr('aria-valuenow'));
-                val += progressDelta;
-                bar.width(val + '%');
-                bar.attr('aria-valuenow', val);
-                if(val >= 100.0) {
-                    clearInterval(progress);
-                    switchToStats();
-                }
-            }, refreshInterval);
-            
+            progress = setInterval(progressUpdater, refreshInterval);
             return false;
         }
         
