@@ -31,9 +31,15 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         return false;
     }
 
+    var started = false;
+    
     function switchToPractice(start) {
         switchPanel('#div_practice');
         if(start) {
+            started = false;
+            $('#id_word').html('TouchType');
+            $('#id_edit').val('Press any key to start');
+            
             var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
             var keysToPractice = keysToPracticeEdit.val();
             
@@ -68,6 +74,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             '#div_settings': switchToPractice,
             '#div_stats': switchToPractice
     };
+    
     var escapeHandler;
     
     
@@ -80,24 +87,46 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     } );
     
     
-    switchToPractice();
+    switchToSettings();
     
     var word = $('#id_word');
     var edit = $('#id_edit');
     
+    //timer for the progress
+    var duration = 0.5 * 60.0 * 1000.0; //milliseconds
+    var refreshInterval = 100.0; //milliseconds
+    var progressDelta = refreshInterval / duration * 100.0; //% delta
+    
+    var progress;
+    
     function onKeyPress(keyEvent){
         var keyCode = keyEvent.keyCode;
         var keyValue = String.fromCharCode(keyCode);
+        if(!started) {
+            started = true;
+            word.html(TouchType.next(edit.val()));
+            edit.val('');
+            
+            var bar = $('.progress-bar');
+            progress = setInterval(function(){
+                var val = parseFloat(bar.attr('aria-valuenow'));
+                val += progressDelta;
+                bar.width(val + '%');
+                bar.attr('aria-valuenow', val);
+                if(val >= 100.0) {
+                    clearInterval(progress);
+                    switchToStats();
+                }
+            }, refreshInterval);
+            
+            return false;
+        }
+        
         //console.log(keyValue + ': ' + keyCode);
         if(keyCode === KeyCodeSpace) {
             word.html(TouchType.next(edit.val()));
             edit.val('');
             return false; //So space is not handled by the target
-        }
-        else if(keyCode === KeyCodeEnter) {
-            console.log('enter');
-            switchToStats();
-            return false; //So enter is not handled by the target
         }
         
         var mappedKeyValue = TouchType.getMappedKeyValue(keyValue);
