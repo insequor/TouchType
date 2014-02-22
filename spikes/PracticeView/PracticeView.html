@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Test Page for Practice View</title>
+    <link rel="stylesheet" type="text/css" href="PracticeView.css">
+</head>
+<body>
+    <div class="div_word" id="id_word">
+        TouchType
+    </div>
+    <div class="div_edit">
+        <input id="id_edit" type="text" name="edit" onkeypress="return onKeyPress(event)"/>
+    <div>
+</body>
+    <script>
+        var KeyCodeEnter = 13;
+        var KeyCodeSpace = 32;
+        
+        function onKeyPress(keyEvent){
+            var keyCode = keyEvent.keyCode;
+            var keyValue = String.fromCharCode(keyCode);
+            var input = keyEvent.srcElement;
+            //console.log(keyEvent);
+            //console.log(keyValue + ' ' + keyCode);
+            if(keyCode == KeyCodeSpace) {
+                input.value = '';
+                return false; //So space is not handled by the target
+            }
+            else if(keyCode == KeyCodeEnter) {
+                console.log('Pause/Stop...');
+                return false; //So enter is not handled by the target
+            }            
+        };
+    </script>
+<html>
