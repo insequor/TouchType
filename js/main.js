@@ -2,7 +2,7 @@
 "use strict";
 
 require.config({
-    baseUrl: '../',
+    baseUrl: './',
     //Below line ensures that js files will not be cached on client side, good for development
     urlArgs: 'version=',  //+ (new Date()).getTime(),
     paths: {
