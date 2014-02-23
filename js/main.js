@@ -109,6 +109,8 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     
     
     switchToSettings();
+    //switchToStats();
+    //switchToPractice(true);
     
     var word = $('#id_word');
     var edit = $('#id_edit');

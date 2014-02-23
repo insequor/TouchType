@@ -4,15 +4,16 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/TouchType.css">
     <link rel="stylesheet" href="external/bootstrap-3.0.2-dist/dist/css/bootstrap.min.css">
     
-    <script data-main="js/main" src="external/require.js"></script>
+    <script data-main="js/practice" src="external/require.js"></script>
 </head>
 <body>
     <div class="div_icons">
         <span id="icon_settings" class="glyphicon glyphicon-cog"></span>
         <span id="icon_stats" class="glyphicon glyphicon-stats"></span>
+        <span id="icon_info" class="glyphicon glyphicon-info-sign"></span>
     </div>
     
-    <div id="div_practice" class="panel panel-default hide">
+    <div id="div_practice" class="panel panel-default show">
         <div class="panel-body">
             <div class="div_word" id="id_word">
                Touch Type
@@ -21,9 +22,8 @@
                 <input id="id_edit" 
                         type="text" 
                         class="form-control" 
-                        value="Press any key to start" 
-                        style="text-align:center;"
-                        readonly>
+                        value="Press Space to Start" 
+                        style="text-align:center;">
             </div>
             <br />
             <div class="progress">
@@ -33,7 +33,8 @@
             
         </div>
     </div>
-    <div id="div_settings" class="panel show">
+    
+    <div id="div_settings" class="panel hide">
         <div class="panel-heading">
             <h1>Settings</h1>
         </div>
@@ -56,6 +57,22 @@
 
             <a href="#" class="continue-practice">Cancel</a>
             <a href="#" class="start-practice">New Practice Session</a>
+        </div>
+    </div>
+    
+     <div id="div_help" class="panel hide">
+        <div class="panel-heading">
+            <h1>Help</h1>
+        </div>
+    </div>
+    
+    <div id="div_pause" class="panel hide">
+        <div class="panel-heading">
+            <h1>Pause</h1>
+        </div>
+        <div class="panel-body">
+            Enter to continue practice </br>
+            Escape to end the practice
         </div>
     </div>
     
