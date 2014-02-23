@@ -113,6 +113,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             
             var edit = $('#id_edit');
             edit.unbind("keypress", this.keypressOnEdit);
+            edit.unbind("input", this.changeOnEdit);
         }
         
         , enter: function(returnState) {
@@ -122,6 +123,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             show_icons(this.icons);
             
             edit.on("keypress", this.keypressOnEdit);
+            edit.on("input", this.changeOnEdit);
             edit.focus();
             
             var val = parseFloat(bar.attr('aria-valuenow'));
@@ -177,13 +179,21 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
                 edit.val('');
                 return false;
             }
-            
+
             var keyValue = String.fromCharCode(keyEvent.keyCode);
             var mappedKeyValue = TouchType.getMappedKeyValue(keyValue);
             if (mappedKeyValue){
                 edit.val(edit.val() + mappedKeyValue);
                 return false;
             }
+        }
+        
+        , changeOnEdit: function() {
+            var val = edit.val();
+            if(val == "" || word.html().indexOf(val) ==  0)
+                word.removeClass("wrong");
+            else
+                word.addClass("wrong");
         }
     };
     
