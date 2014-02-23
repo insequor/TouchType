@@ -40,7 +40,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     var edit = $('#id_edit');
     var bar = $('.progress-bar');
     
-    var duration = 1.0; //minutes
+    var duration = 2.0; //minutes
     var refreshInterval = 100.0; //milliseconds
     var progressDelta = refreshInterval / (duration * 60.0 * 1000.0) * 100.0; //% delta
     
@@ -206,13 +206,24 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             
             var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
             StateSettings.keyHandlerFunction = TouchType.keyMapper(keyMapping);
+            
+            var durationEdit = dialog.find("#Duration");
+            durationEdit.val(duration);
         }
         
         , keyup : function (keyEvent){
             switch(keyEvent.keyCode) {
                 case Key.Enter:
-                    //TODO: Save Settings
+                    var durationEdit = dialog.find("#Duration");
+                    var val = parseFloat(durationEdit.val());
+                    if(val > 0.0)
+                        duration = val;
+                    else
+                        duration = 2.0; //minutes
+                    progressDelta = refreshInterval / (duration * 60.0 * 1000.0) * 100.0; //% delta
+                    
                     StateManager.transition(this.returnState);
+                    
                     break;
                 case Key.Escape:
                     StateManager.transition(this.returnState);
