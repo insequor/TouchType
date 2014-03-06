@@ -7,13 +7,30 @@
     <script data-main="js/practice" src="external/require.js"></script>
 </head>
 <body>
-    <div class="div_icons">
-        <span id="icon_settings" class="glyphicon glyphicon-cog"></span>
-        <span id="icon_stats" class="glyphicon glyphicon-stats"></span>
-        <span id="icon_info" class="glyphicon glyphicon-info-sign"></span>
+    <div id="div_default" class="panel panel-default show">
+        <div class="panel-body">
+            <div class="div_word">
+               Touch Type
+            </div>
+            <div class="div_edit" style="width=:100px;">
+                <input type="text" 
+                        class="form-control" 
+                        value="Press Space to Start" 
+                        style="text-align:center;">
+            </div>
+            <br />
+            
+            <hr/>
+            <div class="navigation-info">
+                    space: Start Practicing<br/>
+                    F2: Settings<br/>
+                    F4: Statistics<br/>
+                    F7: Help<br/>
+            </div>
+        </div>
     </div>
     
-    <div id="div_practice" class="panel panel-default show">
+    <div id="div_practice" class="panel panel-default hide">
         <div class="panel-body">
             <div class="div_word" id="id_word">
                Touch Type
@@ -22,7 +39,7 @@
                 <input id="id_edit" 
                         type="text" 
                         class="form-control" 
-                        value="Press Space to Start" 
+                        value="" 
                         style="text-align:center;">
             </div>
             <br />
@@ -30,6 +47,15 @@
                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                 </div>
             </div>
+            <hr/>
+            
+            <div class="navigation-info">
+                    space: Confirm the current word to recieve the next one<br/>
+                    escape: Pause (and then stop)<br/>
+                    F4: Statistics<br/>
+                    F7: Help<br/>
+            </div>
+            
             
         </div>
     </div>
@@ -60,11 +86,22 @@
                 </tr>
             </table>
         </div>
+        
+        <hr/>
+        <div class="navigation-info">
+                escape: Cancel the changes and go back to previous screen<br/>
+                enter: Confirm the changes and go back to previous screen<br/>
+        </div>
+            
     </div>
     
      <div id="div_help" class="panel hide">
         <div class="panel-heading">
             <h1>Help</h1>
+        </div>
+        <hr/>
+        <div class="navigation-info">
+                escape/enter: Go back to previous screen<br/>
         </div>
     </div>
     
@@ -73,8 +110,11 @@
             <h1>Pause</h1>
         </div>
         <div class="panel-body">
-            Enter to continue practice </br>
-            Escape to end the practice
+        </div>
+        <hr/>
+        <div class="navigation-info">
+                escape: End the practice session<br/>
+                enter: Continue the practice session<br/>
         </div>
     </div>
     
@@ -85,6 +125,10 @@
         <div class="panel-body">
             You typed <span id="span_words"></span> words correctly in <span id="span_minutes"></span> minutes <br />
             Your speed so far is <span id="span_speed"></span> words per minute
+        </div>
+        <hr/>
+        <div class="navigation-info">
+                escape/enter: Go back to previous screen<br/>
         </div>
     </div>
     

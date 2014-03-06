@@ -54,20 +54,10 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         div.addClass('hide');
     }
     
-    function show_icons(icons) {
-        $.each(icons, function(idx, icon){$(icon).show()});
-    }
-    
-    function hide_icons(icons) {
-        $.each(icons, function(idx, icon){$(icon).hide()});
-    }
-    
     var StateDefault = {name: "default"
-        , div : $("#div_practice")
-        , icons : ["#icon_settings", "#icon_stats", "#icon_info"]
+        , div : $("#div_default")
         , leave: function() {
             hide_div(this.div);
-            hide_icons(this.icons);
         }
         , enter: function(returnState) {
             this.returnState = returnState;
@@ -78,11 +68,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             bar.width('0%');
             bar.attr('aria-valuenow', 0);
             
-            edit.val("Press Space to Start");
-            word.html("Touch Type");
-            
             show_div(this.div);
-            show_icons(this.icons);
         }
         , keyup : function (keyEvent){
             switch(keyEvent.keyCode) {
@@ -106,12 +92,10 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     
     var StatePractice = {name: "practice"
         ,  div : $("#div_practice")
-        , icons : ["#icon_stats", "#icon_info"]
         , leave: function() {
             clearInterval(this.progress);
             
             hide_div(this.div);
-            hide_icons(this.icons);
             
             var edit = $('#id_edit');
             edit.unbind("keypress", this.keypressOnEdit);
@@ -122,7 +106,6 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             this.returnState = returnState;
             
             show_div(this.div);
-            show_icons(this.icons);
             
             edit.on("keypress", this.keypressOnEdit);
             edit.on("input", this.changeOnEdit);
