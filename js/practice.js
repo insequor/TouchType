@@ -72,6 +72,8 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         , enter: function(returnState) {
             this.returnState = returnState;
             
+            StatePractice.updateWordClass(true);
+            
             var bar = $('.progress-bar');
             bar.width('0%');
             bar.attr('aria-valuenow', 0);
@@ -176,23 +178,29 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             //console.log("edit.keyPress: " + keyEvent.keyCode);
             if(keyEvent.keyCode == Key.Space) {
                 word.html(TouchType.next(edit.val()));
-                edit.val('');
+                edit.val(''); //We don't trigger the event so last correct status is still displayed in the word
                 return false;
             }
 
             var keyValue = String.fromCharCode(keyEvent.keyCode);
             var mappedKeyValue = TouchType.getMappedKeyValue(keyValue);
             if (mappedKeyValue){
-                edit.val(edit.val() + mappedKeyValue);
+                var val = edit.val() + mappedKeyValue;
+                edit.val(val);
+                edit.trigger("input"); //Event is not triggered automatically
                 return false;
             }
         }
         
         , changeOnEdit: function() {
             var val = edit.val();
-            if(val == "" || word.html().indexOf(val) ==  0)
+            StatePractice.updateWordClass(val == "" || word.html().indexOf(val) ==  0);
+        }
+        
+        ,updateWordClass: function(correct) {
+            if(correct)
                 word.removeClass("wrong");
-            else
+            else 
                 word.addClass("wrong");
         }
     };
