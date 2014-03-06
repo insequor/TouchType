@@ -160,7 +160,9 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         , keypressOnEdit: function(keyEvent) {
             //console.log("edit.keyPress: " + keyEvent.keyCode);
             if(keyEvent.keyCode == Key.Space || keyEvent.keyCode == Key.Enter) {
-                word.html(TouchType.next(edit.val()));
+                var newWord = TouchType.next(edit.val());
+                StatePractice.updateWordClass(newWord != word.html());
+                word.html(newWord);
                 edit.val(''); //We don't trigger the event so last correct status is still displayed in the word
                 return false;
             }
