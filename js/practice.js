@@ -354,18 +354,6 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     
     StateManager.transition(StateDefault);
     
-    $('#icon_settings').on('click', function(){
-        StateManager.transition(StateSettings, StateDefault);
-    } );
-    
-    $('#icon_stats').on('click', function(){
-        StateManager.transition(StateStats, StateDefault);
-    } );
-    
-    $('#icon_info').on('click', function(){
-        StateManager.transition(StateHelp, StateDefault);
-    } );
-    
     $(document).on('keyup',  StateManager.keyup);
     
 });
