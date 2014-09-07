@@ -33,17 +33,31 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
     };
     
     var dialog = $('#div_settings');
+    var cookieUsageCombo = dialog.find('#CookieUsage');
     var keyMappingCombo = dialog.find('#KeyMapping');
     var keysToPracticeEdit = dialog.find('#KeysToPractice');
-    
+    var durationEdit = dialog.find("#Duration");
+
     var word = $('#id_word');
     var edit = $('#id_edit');
     var bar = $('.progress-bar');
     
-    var duration = 2.0; //minutes
+    var settings = localStorage.getItem('TouchType.settings');
+    if (settings)
+        settings = JSON.parse(settings);
+    else {
+        settings = {
+            CookieUsage: 'DoNotUse',
+            KeyMapping: 'none',
+            KeysToPractice: '',
+            PracticeDuration: 2.0 //minutes
+        };
+    }
+
     var refreshInterval = 100.0; //milliseconds
-    var progressDelta = refreshInterval / (duration * 60.0 * 1000.0) * 100.0; //% delta
-    
+    var progressDelta = refreshInterval / (settings.PracticeDuration * 60.0 * 1000.0) * 100.0; //% delta
+        
+
     function show_div(div) {
         div.removeClass('hide');
         div.addClass('show');
@@ -203,27 +217,40 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
         , enter: function(returnState) {
             this.returnState = returnState;
             show_div(this.div);
-            
+             
+            cookieUsageCombo.val(settings.CookieUsage);
+            keyMappingCombo.val(settings.KeyMapping);
+            keysToPracticeEdit.val(settings.KeysToPractice);
+            durationEdit.val(settings.PracticeDuration);
+
             keyMappingCombo.on("change", this.changeOnKeyMappingCombo);
             keysToPracticeEdit.on("keypress", this.keyPressOnPracticeKeys);
-            
+           
             var keyMapping = keyMappingComboMapper[keyMappingCombo.val()];
             StateSettings.keyHandlerFunction = TouchType.keyMapper(keyMapping);
-            
-            var durationEdit = dialog.find("#Duration");
-            durationEdit.val(duration);
         }
         
         , keyup : function (keyEvent){
             switch(keyEvent.keyCode) {
                 case Key.Enter:
-                    var durationEdit = dialog.find("#Duration");
+                    settings.CookieUsage = cookieUsageCombo.val();
+                    settings.KeyMapping = keyMappingCombo.val();
+                    settings.KeysToPractice = keysToPracticeEdit.val();
                     var val = parseFloat(durationEdit.val());
-                    if(val > 0.0)
-                        duration = val;
+                    if (val > 0.0)
+                        settings.PracticeDuration = val;
                     else
-                        duration = 2.0; //minutes
-                    progressDelta = refreshInterval / (duration * 60.0 * 1000.0) * 100.0; //% delta
+                        settings.PracticeDuration = 2.0; //minutes
+                    progressDelta = refreshInterval / (settings.PracticeDuration * 60.0 * 1000.0) * 100.0; //% delta
+
+                    if (settings.CookieUsage == 'DoNotUse') {
+                        //Delete the cookie if exist
+                        localStorage.removeItem('TouchType.settings');
+                    }
+                    else if (settings.CookieUsage == 'LocalStorage') {
+                        //Store the cookie
+                        localStorage.setItem('TouchType.settings', JSON.stringify(settings));
+                    }
                     
                     StateManager.transition(this.returnState);
                     
@@ -263,7 +290,7 @@ require(['jquery', "jquery.bootstrap", "js/TouchType"], function($, bs, TouchTyp
             this.returnState = returnState;
             show_div(this.div);
             
-            var minutes = parseFloat(bar.attr('aria-valuenow')) * duration / 100.0;
+            var minutes = parseFloat(bar.attr('aria-valuenow')) * settings.PracticeDuration / 100.0;
             $('#span_words').html(TouchType.numberOfCorrectWords());
             $('#span_minutes').html(minutes.toFixed(0));
             $('#span_speed').html((TouchType.numberOfCorrectWords() / minutes).toFixed(0));

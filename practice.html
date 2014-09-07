@@ -3,8 +3,6 @@
     <title>Touch Type</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/TouchType.css">
     <link rel="stylesheet" href="external/bootstrap-3.0.2-dist/dist/css/bootstrap.min.css">
-    
-    <script data-main="js/practice" src="external/require.js"></script>
 </head>
 <body>
     <div id="div_default" class="panel panel-default show">
@@ -66,6 +64,15 @@
         </div>
         <div class="panel-body">
             <table width="100%">
+                <tr>
+                    <td>Cookie Usage</td>
+                    <td>
+                        <select id="CookieUsage" class="form-control">
+                            <option value="DoNotUse">Do Not Use Cookies (seetins will not be saved)</option>
+                            <option value="LocalStorage">Use Cookies to Store Settings Locally</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <td>Key Mappings</td>
                     <td>
@@ -133,4 +140,6 @@
     </div>
     
 </body>
-<html>
+<script data-main="js/practice" src="external/require.js"></script>
+
+</html>
