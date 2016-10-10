@@ -7,3 +7,6 @@ The approach used in this exercise is heavily influenced by http://learn.dvorak.
 * Use single words at a given time instead of sequence of them. This is mainly to have a more sleek layout and perhaps open the possibility to more game mechanics
 * Support more key layouts
 * Support more languages
+
+This project has its place it github pages: http://insequor.github.io/TouchType/
+
